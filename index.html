@@ -1,27 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>Gift Surprise</title>
-  <link rel="stylesheet" href="style.css">
+  <title> happy birthday remas </title>
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Tajawal', Arial, sans-serif;
+      background: #220033;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+    }
+    #tsparticles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1);}
+      20%, 60% { transform: scale(1.12);}
+      40%, 80% { transform: scale(0.93);}
+    }
+    .heart-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      z-index: 2;
+    }
+    .heart-svg {
+      width: 520px;
+      height: 440px;
+      margin-bottom: 38px;
+      display: block;
+      filter: drop-shadow(0 12px 42px #0002);
+      max-width: 97vw;
+      max-height: 78vh;
+      animation: heartbeat 4s infinite; /* أبطأ نبض */
+      cursor: pointer;
+      transition: filter 0.2s;
+      z-index: 2;
+    }
+    .heart-svg:active {
+      filter: drop-shadow(0 0 50px #ff2d55aa);
+    }
+    .heart-outline {
+      fill: none;
+      stroke: #ff2d55;
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 2700;
+      stroke-dashoffset: 2700;
+      animation: drawHeart 4.5s cubic-bezier(.77,0,.18,1) forwards;
+    }
+    .heart-fill {
+      fill: #ff2d55;
+      opacity: 0;
+      animation: fillHeart 1s ease 4.3s forwards;
+    }
+    @keyframes drawHeart {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes fillHeart {
+      to { opacity: 1; }
+    }
+    .below-text {
+      font-size: 2.1em;
+      color: #fff;
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 0 2px 24px #0006, 0 1px 1px #ff2d5577;
+      letter-spacing: 1px;
+      z-index: 2;
+      min-height: 2.2em;
+      direction: rtl;
+    }
+    .audio-player-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+      z-index: 2;
+    }
+    audio {
+      width: 340px;
+      max-width: 92vw;
+      accent-color: #ff2d55;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 2px 12px #0003;
+      outline: none;
+      padding: 5px 0;
+      transition: box-shadow 0.2s;
+    }
+    audio:focus {
+      box-shadow: 0 4px 22px #ff2d5566;
+    }
+    .video-player-wrap {
+      margin-top: 38px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      z-index: 2;
+    }
+    video {
+      width: 410px;
+      max-width: 96vw;
+      border-radius: 20px;
+      box-shadow: 0 2px 18px #0003;
+      background: transparent !important;  /* هنا التعديل */
+      outline: none;
+      display: block;
+    }
+    @media (max-width: 700px) {
+      .heart-svg {
+        width: 96vw;
+        height: 65vw;
+      }
+      .below-text {
+        font-size: 1.18em;
+      }
+      .audio-player-wrap {
+        margin-top: 22px;
+      }
+      .video-player-wrap {
+        margin-top: 20px;
+      }
+      video {
+        width: 96vw;
+        min-height: 130px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="gift" id="gift">
-      <div class="lid" id="lid"></div>
-      <div class="box"></div>
-      <div class="ribbon-horizontal"></div>
-      <div class="ribbon-vertical"></div>
-    </div>
-
-    <button id="openBtn">Open</button>
-
-    <div class="message" id="message">
-      <p id="customMessage">🎉 مفاجأة! أحبك من كل قلبي 💖</p>
+  <div id="tsparticles"></div>
+  <div class="heart-container">
+    <svg class="heart-svg" viewBox="0 0 700 600" id="heart">
+      <path class="heart-outline"
+        d="
+          M350,570
+          C 80,390 10,210 180,110
+          C 295,38 350,170 350,235
+          C 350,170 405,38 520,110
+          C 690,210 620,390 350,570
+        " />
+      <path class="heart-fill"
+        d="
+          M350,570
+          C 80,390 10,210 180,110
+          C 295,38 350,170 350,235
+          C 350,170 405,38 520,110
+          C 690,210 620,390 350,570
+        " />
+    </svg>
+    <div class="below-text">
+      <span id="typewriter"></span>
     </div>
   </div>
+  <div class="audio-player-wrap">
+    <audio id="music" controls autoplay>
+      <source src="https://cdn.discordapp.com/attachments/750331358265475204/1402758832752431114/8518a1da2c37c6bd.m4a?ex=68951477&is=6893c2f7&hm=3937796df38a1d35dcb031adcfcc400859289e6ab7f461764e743c72995e0baf&" type="audio/mp4">
+      متصفحك لا يدعم تشغيل الصوت
+    </audio>
+  </div>
+  <div class="video-player-wrap">
+    <video controls autoplay loop muted>
+      <source src="https://cdn.pixabay.com/video/2023/03/16/156922-810428355c.mp4" type="video/mp4">
+      متصفحك لا يدعم تشغيل الفيديو
+    </video>
+  </div>
+  <!-- confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <!-- نجوم -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3"></script>
+  <script>
+    // نجوم الخلفية
+    tsParticles.load("tsparticles", {
+      background: { color: { value: "#220033" } },
+      fpsLimit: 60,
+      particles: {
+        number: { value: 60, density: { enable: true, area: 900 } },
+        color: { value: "#fff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.7, random: true },
+        size: { value: 2.8, random: { enable: true, minimumValue: 1 } },
+        move: { enable: true, speed: 0.65, direction: "top", outModes: { default: "out" } }
+      },
+      detectRetina: true
+    });
 
-  <audio id="audio" src="your-sound.mp3"></audio>
-  <script src="script.js"></script>
+    // confetti عند الضغط على القلب
+    document.getElementById('heart').addEventListener('click', function(e) {
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#ff2d55','#fff','#ff89a2','#a444ff','#ffcc00']
+      });
+    });
+
+    // تأثير كتابة النص
+    const messages = [
+      " كل عام وانتي بخير ريماس❤️   ",
+      "عسى ايامك كلها سعاده",
+      "شغلي الاغنيه واضغطي على القلب يورعه"
+    ];
+    let msgIndex = 0, charIndex = 0;
+    function typeWriter() {
+      const typeSpan = document.getElementById("typewriter");
+      if(charIndex < messages[msgIndex].length){
+        typeSpan.innerHTML += messages[msgIndex][charIndex++];
+        setTimeout(typeWriter, 70);
+      } else {
+        setTimeout(() => {
+          typeSpan.innerHTML = "";
+          charIndex = 0;
+          msgIndex = (msgIndex + 1) % messages.length;
+          setTimeout(typeWriter, 400);
+        }, 2300);
+      }
+    }
+    window.addEventListener('DOMContentLoaded', typeWriter);
+
+    // محاولة التشغيل التلقائي للصوت
+    const audio = document.getElementById('music');
+    window.addEventListener('load', () => {
+      audio.volume = 0.60;
+      audio.play().catch(()=>{});
+    });
+  </script>
 </body>
 </html>
